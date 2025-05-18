@@ -68,56 +68,19 @@ map.on('load', async () => {
     } catch (error) {
         console.error('Error loading JSON:', error); // Handle errors
     }
+    
     let stations = jsonData.data.stations;
     console.log('Stations Array:', stations);
 
-    // Select the SVG
-    const svg = d3.select('#map').select('svg');
-
-    // Create circles for each station
-    const radiusScale = d3
-    .scaleSqrt()
-    .domain([0, d3.max(stations, (d) => d.totalTraffic)])
-    .range([0, 25]);
-    
-    const circles = svg
-    .selectAll('circle')
-    .data(stations)
-    .enter()
-    .append('circle')
-    .attr('r', (d) => radiusScale(d.totalTraffic))
-    .attr('fill', 'steelblue')
-    .attr('stroke', 'white')
-    .attr('stroke-width', 1)
-    .attr('opacity', 0.8);
-
-    // Update their positions
-    function updatePositions() {
-    circles
-        .attr('cx', (d) => getCoords(d).cx)
-        .attr('cy', (d) => getCoords(d).cy);
-    }
-
-    // Initial draw
-    updatePositions();
-
-    // Update on map movement
-    map.on('move', updatePositions);
-    map.on('zoom', updatePositions);
-    map.on('resize', updatePositions);
-    map.on('moveend', updatePositions);
-
     const trafficUrl = "https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv";
-
-    // Load the CSV asynchronously
     const trips = await d3.csv(trafficUrl);
-    console.log("Loaded Trips:", trips); 
+    console.log("Loaded Trips:", trips);
 
     const departures = d3.rollup(
         trips,
         (v) => v.length,
-        (d) => d.start_station_id,
-      );
+        (d) => d.start_station_id
+    );
     const arrivals = d3.rollup(
         trips,
         (v) => v.length,
@@ -126,15 +89,46 @@ map.on('load', async () => {
 
     stations = stations.map((station) => {
         let id = station.short_name;
-      
         station.arrivals = arrivals.get(id) ?? 0;
         station.departures = departures.get(id) ?? 0;
         station.totalTraffic = station.arrivals + station.departures;
-      
         return station;
-      });
+    });
 
+    // Select the SVG
+    const svg = d3.select('#map').select('svg');
 
+    // Create the radius scale AFTER totalTraffic exists
+    const radiusScale = d3
+        .scaleSqrt()
+        .domain([0, d3.max(stations, (d) => d.totalTraffic)])
+        .range([0, 25]);
+
+    // Create circles for each station
+    const circles = svg
+        .selectAll('circle')
+        .data(stations)
+        .enter()
+        .append('circle')
+        .attr('r', (d) => radiusScale(d.totalTraffic))
+        .attr('fill', 'steelblue')
+        .attr('stroke', 'white')
+        .attr('stroke-width', 1)
+        .attr('opacity', 0.8);
+
+    // Update their positions
+    function updatePositions() {
+        circles
+        .attr('cx', (d) => getCoords(d).cx)
+        .attr('cy', (d) => getCoords(d).cy);
+    }
+
+    updatePositions();
+
+    map.on('move', updatePositions);
+    map.on('zoom', updatePositions);
+    map.on('resize', updatePositions);
+    map.on('moveend', updatePositions);
 
 });
   
