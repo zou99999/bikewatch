@@ -13,18 +13,26 @@ header {
     display: flex;
     gap: 1em;
     align-items: baseline;
+    margin-bottom: 1em;
 }
-  
+
 label {
     margin-left: auto;
     display: flex;
     flex-direction: column;
     gap: 0.25em;
+    font-size: 1rem;
+}
+  
+.time-display {
+    display: flex;
+    flex-direction: column;
 }
   
 #selectedTime,
 #anyTime {
     display: block;
+    font-size: 0.9rem;
 }
   
 #anyTime {

@@ -135,4 +135,29 @@ map.on('load', async () => {
     map.on('moveend', updatePositions);
 
 });
+
+
+
+const timeSlider = document.getElementById('timeSlider');
+const timeDisplay = document.getElementById('selectedTime');
+const anyTime = document.getElementById('anyTime');
+
+// Initial state
+anyTime.style.display = 'block';
+timeDisplay.textContent = '';
+
+timeSlider.addEventListener('input', () => {
+  const minutes = +timeSlider.value;
+
+  if (minutes === -1) {
+    timeDisplay.textContent = '';
+    anyTime.style.display = 'block';
+  } else {
+    const hours = Math.floor(minutes / 60).toString().padStart(2, '0');
+    const mins = (minutes % 60).toString().padStart(2, '0');
+    timeDisplay.textContent = `${hours}:${mins}`;
+    anyTime.style.display = 'none';
+  }
+});
+
   
