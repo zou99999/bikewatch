@@ -40,4 +40,39 @@ label {
     font-style: italic;
 }
 
+
+/* Shared color variables and mixing logic */
+#map svg circle,
+.legend > div {
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
+  --color: color-mix(
+    in lab,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+  background-color: var(--color);
+}
+
+/* Legend container layout */
+.legend {
+  display: flex;
+  gap: 1px;
+  margin-block: 1em;
+  font-size: 0.9em;
+  border-radius: 4px;
+  overflow: hidden;
+  max-width: 400px;
+  margin-inline: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Legend items (blocks) */
+.legend > div {
+  flex: 1;
+  padding: 0.4em 1.2em;
+  text-align: center;
+  color: white;
+}
+
   
