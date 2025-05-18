@@ -25,9 +25,18 @@ body {
   }
 
 #map svg circle {
-    fill: steelblue;
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+      in lab,
+      var(--color-departures) calc(100% * var(--departure-ratio)),
+      var(--color-arrivals)
+    );
+  
+    fill: var(--color); /* ✅ use dynamic color */
     fill-opacity: 0.6;
     stroke: white;
     stroke-width: 1;
     pointer-events: auto;
   }
+  
