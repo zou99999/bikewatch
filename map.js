@@ -17,7 +17,7 @@ const map = new mapboxgl.Map({
 
 //Boston bike lane
 map.on('load', async () => {
-    //code
+    //Boston bike lane
     map.addSource('boston_route', {
         type: 'geojson',
         data: 'https://bostonopendata-boston.opendata.arcgis.com/datasets/boston::existing-bike-network-2022.geojson',
@@ -33,22 +33,23 @@ map.on('load', async () => {
           'line-opacity': 0.4,
         },
       });
-  });
-
-//Cambridge bike lane
-map.addSource('cambridge_route', {
+    
+    //Cambridge bike lane
+    map.addSource('cambridge_route', {
     type: 'geojson',
     data: 'https://data.cambridgema.gov/api/geospatial/4c38-4e6r?method=export&format=GeoJSON',
-  });
+    });
 
-  map.addLayer({
-    id: 'cambridge-bike-lanes',
-    type: 'line',
-    source: 'cambridge_route',
-    paint: {
+    map.addLayer({
+        id: 'cambridge-bike-lanes',
+        type: 'line',
+        source: 'cambridge_route',
+        paint: {
         'line-color': 'green',
         'line-width': 3,
         'line-opacity': 0.4,
-      },
+        },
+    });
+
   });
   
