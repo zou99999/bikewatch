@@ -75,6 +75,11 @@ map.on('load', async () => {
     const svg = d3.select('#map').select('svg');
 
     // Create circles for each station
+    const radiusScale = d3
+    .scaleSqrt()
+    .domain([0, d3.max(stations, (d) => d.totalTraffic)])
+    .range([0, 25]);
+    
     const circles = svg
     .selectAll('circle')
     .data(stations)
@@ -129,10 +134,6 @@ map.on('load', async () => {
         return station;
       });
 
-    const radiusScale = d3
-    .scaleSqrt()
-    .domain([0, d3.max(stations, (d) => d.totalTraffic)])
-    .range([0, 25]);
 
 
 });
