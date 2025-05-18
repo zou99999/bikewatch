@@ -21,7 +21,6 @@ const map = new mapboxgl.Map({
   maxZoom: 18, // Maximum allowed zoom
 });
 
-//Boston bike lane
 map.on('load', async () => {
     //Boston bike lane
     map.addSource('boston_route', {
@@ -114,7 +113,12 @@ map.on('load', async () => {
         .attr('fill', 'steelblue')
         .attr('stroke', 'white')
         .attr('stroke-width', 1)
-        .attr('opacity', 0.8);
+        .attr('opacity', 0.8)
+        .each(function (d) {
+            d3.select(this)
+              .append('title')
+              .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
+          });
 
     // Update their positions
     function updatePositions() {
