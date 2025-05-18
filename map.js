@@ -48,6 +48,12 @@ function filterTripsByTime(trips, timeFilter) {
         });
 }
 
+const stationFlow = d3
+  .scaleQuantize()
+  .domain([0, 1])
+  .range([0, 0.5, 1]); 
+
+
 // Initialize the map
 const map = new mapboxgl.Map({
   container: 'map', // ID of the div where the map will render
@@ -154,15 +160,19 @@ map.on('load', async () => {
     .enter()
     .append('circle')
     .attr('r', (d) => radiusScale(d.totalTraffic))
-    .attr('fill', 'steelblue')
     .attr('stroke', 'white')
     .attr('stroke-width', 1)
     .attr('opacity', 0.8)
+    .style('--departure-ratio', (d) =>
+      stationFlow(d.departures / d.totalTraffic || 0)
+    )
     .each(function (d) {
       d3.select(this)
         .append('title')
-        .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
-    });
+        .text(
+          `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`
+        );
+    });   
 
     // Update their positions
     function updatePositions() {
@@ -209,9 +219,12 @@ map.on('load', async () => {
       
         // Update circle sizes
         circles
-          .data(filteredStations, d => d.short_name)
-          .join('circle')
-          .attr('r', (d) => radiusScale(d.totalTraffic));
+            .data(filteredStations, d => d.short_name)
+            .join('circle')
+            .attr('r', (d) => radiusScale(d.totalTraffic))
+            .style('--departure-ratio', (d) =>
+                stationFlow(d.departures / d.totalTraffic || 0)
+            )
       }
     
     updateScatterPlot(-1);
