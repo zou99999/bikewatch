@@ -8,3 +8,27 @@ body {
     margin: auto;
     padding: 1em;
   }
+
+header {
+    display: flex;
+    gap: 1em;
+    align-items: baseline;
+}
+  
+label {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+  
+#selectedTime,
+#anyTime {
+    display: block;
+}
+  
+#anyTime {
+    color: gray;
+    font-style: italic;
+}
+  
