@@ -50,7 +50,7 @@ function filterTripsByTime(trips, timeFilter) {
 
 const stationFlow = d3
   .scaleQuantize()
-  .domain([0.4, 0.6])
+  .domain([0, 1])
   .range([0, 0.5, 1]); 
 
 
