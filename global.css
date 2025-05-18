@@ -40,39 +40,49 @@ label {
     font-style: italic;
 }
 
-
-/* Shared color variables and mixing logic */
-#map svg circle,
-.legend > div {
-  --color-departures: steelblue;
-  --color-arrivals: darkorange;
-  --color: color-mix(
-    in lab,
+#map svg circle {
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+    in oklch,
     var(--color-departures) calc(100% * var(--departure-ratio)),
     var(--color-arrivals)
-  );
-  background-color: var(--color);
+    );
+    fill: var(--color);
 }
-
-/* Legend container layout */
-.legend {
-  display: flex;
-  gap: 1px;
-  margin-block: 1em;
-  font-size: 0.9em;
-  border-radius: 4px;
-  overflow: hidden;
-  max-width: 400px;
-  margin-inline: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Legend items (blocks) */
-.legend > div {
-  flex: 1;
-  padding: 0.4em 1.2em;
-  text-align: center;
-  color: white;
-}
-
+  
+.legend-categorical {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    font-size: 0.9em;
+    margin: 1em auto;
+    max-width: 600px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* 'Legend:' label */
+  .legend-label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Each legend item (swatch + text) */
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+  
+  /* Swatch styling */
+  .legend-item .swatch {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--color);
+    border: 1px solid #ccc;
+  }  
   
