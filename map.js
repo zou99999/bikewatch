@@ -13,6 +13,7 @@ const map = new mapboxgl.Map({
   maxZoom: 18, // Maximum allowed zoom
 });
 
+//Boston bike lane
 map.on('load', async () => {
     //code
     map.addSource('boston_route', {
@@ -31,3 +32,22 @@ map.on('load', async () => {
         },
       });
   });
+
+//Cambridge bike lane
+map.addSource('cambridge_route', {
+    type: 'geojson',
+    data: 'https://data.cambridgema.gov/api/geospatial/4c38-4e6r?method=export&format=GeoJSON',
+  });
+  
+  // ✅ Add Cambridge bike lanes layer
+  map.addLayer({
+    id: 'cambridge-bike-lanes',
+    type: 'line',
+    source: 'cambridge_route',
+    paint: {
+      'line-color': '#007cbf',   // Blue color to distinguish from Boston
+      'line-width': 4,
+      'line-opacity': 0.5,
+    },
+  });
+  
